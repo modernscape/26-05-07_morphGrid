@@ -1,16 +1,16 @@
 import * as THREE from "three"
 import { OrbitControls } from "three/addons/controls/OrbitControls.js"
-import { RGBELoader } from "three/addons/loaders/RGBELoader.js"
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js"
-import { PMREMGenerator } from "three"
+// import { RGBELoader } from "three/addons/loaders/RGBELoader.js"
+// import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js"
+// import { PMREMGenerator } from "three"
 import * as Utils from "./src/js/utils1.js"
 import * as TopUtils from "./src/js/topUtils.js"
 
-import { LineGeometry } from "three/addons/lines/LineGeometry.js"
-import { LineMaterial } from "three/addons/lines/LineMaterial.js"
-import { LineSegments2 } from "three/addons/lines/LineSegments2.js"
-import { Line2 } from "three/addons/lines/Line2.js"
-import { VertexNormalsHelper } from "three/addons/helpers/VertexNormalsHelper.js"
+// import { LineGeometry } from "three/addons/lines/LineGeometry.js"
+// import { LineMaterial } from "three/addons/lines/LineMaterial.js"
+// import { LineSegments2 } from "three/addons/lines/LineSegments2.js"
+// import { Line2 } from "three/addons/lines/Line2.js"
+// import { VertexNormalsHelper } from "three/addons/helpers/VertexNormalsHelper.js"
 
 /////////////////////////////////////////////////////////////////
 // custom
@@ -36,9 +36,9 @@ class Stage {
       near: 0.1,
       far: 20000,
       lookAt: new THREE.Vector3(0, 0, 0),
-      x: 0,
-      y: 0,
-      z: 2000,
+      x: 163,
+      y: 110,
+      z: 68,
     }
     this.scene = null
     this.camera = null
