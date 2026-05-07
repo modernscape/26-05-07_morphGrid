@@ -1,29 +1,29 @@
 import * as THREE from "three"
-import {GLTFLoader} from "three/addons/loaders/GLTFLoader.js"
-import {FontLoader} from "three/addons/loaders/FontLoader.js"
-import {TextGeometry} from "three/addons/geometries/TextGeometry.js"
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js"
+import { FontLoader } from "three/addons/loaders/FontLoader.js"
+import { TextGeometry } from "three/addons/geometries/TextGeometry.js"
 
-import {Vector3, CubicBezierCurve3} from "three"
-import {Line2} from "three/addons/lines/Line2.js"
-import {LineMaterial} from "three/addons/lines/LineMaterial.js"
+import { Vector3, CubicBezierCurve3 } from "three"
+import { Line2 } from "three/addons/lines/Line2.js"
+import { LineMaterial } from "three/addons/lines/LineMaterial.js"
 // import { LineDashedMaterial } from 'three/addons/lines/LineDashedMaterial.js';
-import {LineGeometry} from "three/addons/lines/LineGeometry.js"
-import {LineSegments2} from "three/addons/lines/LineSegments2.js"
-import {PMREMGenerator} from "three"
-import {RGBELoader} from "three/addons/loaders/RGBELoader.js"
+import { LineGeometry } from "three/addons/lines/LineGeometry.js"
+import { LineSegments2 } from "three/addons/lines/LineSegments2.js"
+import { PMREMGenerator } from "three"
+import { RGBELoader } from "three/addons/loaders/RGBELoader.js"
 // import { MeshSurfaceSampler } from 'three/addons/loaders/RGBELoader.js';
-import {MeshSurfaceSampler} from "three/addons/math/MeshSurfaceSampler.js"
+import { MeshSurfaceSampler } from "three/addons/math/MeshSurfaceSampler.js"
 
 // outline
-import {EffectComposer} from "three/addons/postprocessing/EffectComposer.js"
-import {RenderPass} from "three/addons/postprocessing/RenderPass.js"
-import {OutlinePass} from "three/addons/postprocessing/OutlinePass.js"
-import {ShaderPass} from "three/addons/postprocessing/ShaderPass.js"
-import {FXAAShader} from "three/addons/shaders/FXAAShader.js"
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js"
+import { RenderPass } from "three/addons/postprocessing/RenderPass.js"
+import { OutlinePass } from "three/addons/postprocessing/OutlinePass.js"
+import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js"
+import { FXAAShader } from "three/addons/shaders/FXAAShader.js"
 // import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
-import {GammaCorrectionShader} from "three/addons/shaders/GammaCorrectionShader.js"
+import { GammaCorrectionShader } from "three/addons/shaders/GammaCorrectionShader.js"
 
-import {CopyShader} from "three/addons/shaders/CopyShader.js"
+import { CopyShader } from "three/addons/shaders/CopyShader.js"
 
 export default class {}
 
@@ -538,7 +538,7 @@ const envImageNames = [
 
 //「hdriで背景を生成」
 export const makeEnvironment = (stage) => {
-  const imgPath = "./img/hdri/"
+  const imgPath = "./src/img/hdri/"
   const pmremGenerator = new PMREMGenerator(stage.renderer)
   pmremGenerator.compileEquirectangularShader()
 
@@ -562,7 +562,12 @@ export const geometryPositionsWithNumber = (bufferGeometry, positionsNum) => {
     const material = new THREE.MeshBasicMaterial()
     // インデックスを設定していない場合は NonIndexed
 
-    const mesh = new THREE.Mesh(bufferGeometry.index === null ? bufferGeometry : bufferGeometry.toNonIndexed(), material)
+    const mesh = new THREE.Mesh(
+      bufferGeometry.index === null
+        ? bufferGeometry
+        : bufferGeometry.toNonIndexed(),
+      material,
+    )
 
     const sampler = new MeshSurfaceSampler(mesh).build()
     const particlesPosition = new Float32Array(positionsNum * 3)
@@ -570,7 +575,10 @@ export const geometryPositionsWithNumber = (bufferGeometry, positionsNum) => {
       const newPosition = new THREE.Vector3()
       const normal = new THREE.Vector3()
       sampler.sample(newPosition, normal)
-      particlesPosition.set([newPosition.x, newPosition.y, newPosition.z], i * 3)
+      particlesPosition.set(
+        [newPosition.x, newPosition.y, newPosition.z],
+        i * 3,
+      )
     }
     resolve(particlesPosition) // :Float32Array
   })
@@ -692,7 +700,15 @@ export const makeEdges = (mesh, color, width, scene, window) => {
 }
 
 //「カーブに沿ってmeshesを動かす」
-export const moveOnPath = (stage, curveJSON, pointsCount, meshes, interval = 0.1, wait = 3.0, duration = 20.0) => {
+export const moveOnPath = (
+  stage,
+  curveJSON,
+  pointsCount,
+  meshes,
+  interval = 0.1,
+  wait = 3.0,
+  duration = 20.0,
+) => {
   const loader = new THREE.FileLoader()
 
   duration = meshes.length * interval
@@ -716,7 +732,9 @@ export const moveOnPath = (stage, curveJSON, pointsCount, meshes, interval = 0.1
         const curve = new THREE.CubicBezierCurve3(p0, p1, p2, p3)
         pointsOnCurves.push(curve.getPoints(pointsCount))
 
-        const geometry = new THREE.BufferGeometry().setFromPoints(curve.getPoints(pointsCount))
+        const geometry = new THREE.BufferGeometry().setFromPoints(
+          curve.getPoints(pointsCount),
+        )
         const material = new THREE.LineBasicMaterial({
           color: new THREE.Color().setHSL(h, 1.0, 0.5), //
           transparent: true,
@@ -832,14 +850,14 @@ export function imagePixel(path, w, h, ratio) {
       alpha.push(a)
     }
   }
-  return {position, color, alpha}
+  return { position, color, alpha }
 }
 
 export const vec3toObj = (vector3Array) => {
   let result = []
   for (let i = 0; i < vector3Array.length; i++) {
     const vector = vector3Array[i]
-    const obj = {x: vector.x, y: vector.y, z: vector.z}
+    const obj = { x: vector.x, y: vector.y, z: vector.z }
     result.push(obj)
   }
   return result
@@ -853,7 +871,7 @@ export const drawLine = (point0, point1, scenes) => {
   const geometry = new THREE.BufferGeometry().setFromPoints(points)
 
   // 3. マテリアルを作成
-  const material = new THREE.LineBasicMaterial({color: 0xff0000}) // 赤色
+  const material = new THREE.LineBasicMaterial({ color: 0xff0000 }) // 赤色
 
   // 4. Lineオブジェクトを作成
   const line = new THREE.Line(geometry, material)
@@ -908,7 +926,9 @@ export function generateCanvas_Gaussian() {
       var x = i,
         y = j
       //ガウス分布の値の取得
-      var f = Math.exp(-((x - x_) * (x - x_) + (y - y_) * (y - y_)) / (2 * sigma2))
+      var f = Math.exp(
+        -((x - x_) * (x - x_) + (y - y_) * (y - y_)) / (2 * sigma2),
+      )
       //ビットマップデータのRGBAデータ
       bitmapData[index + 0] = 255 * f //R値
       bitmapData[index + 1] = 255 * f //R値
@@ -951,7 +971,9 @@ export const generateCanvas = () => {
       var x = i,
         y = j
       //ガウス分布の値の取得
-      var f = Math.exp(-((x - x_) * (x - x_) + (y - y_) * (y - y_)) / (2 * sigma2))
+      var f = Math.exp(
+        -((x - x_) * (x - x_) + (y - y_) * (y - y_)) / (2 * sigma2),
+      )
       //ビットマップデータのRGBAデータ
       bitmapData[index + 0] = 255 * f //R値
       bitmapData[index + 1] = 0 //G値
@@ -1012,7 +1034,11 @@ export const makeOutlineComposer = (stage, mesh) => {
   composer.addPass(new RenderPass(stage.scene, stage.camera))
 
   // **アウトライン Pass**
-  const outlinePass = new OutlinePass(new THREE.Vector2(window.innerWidth, window.innerHeight), stage.scene, stage.camera)
+  const outlinePass = new OutlinePass(
+    new THREE.Vector2(window.innerWidth, window.innerHeight),
+    stage.scene,
+    stage.camera,
+  )
   outlinePass.edgeStrength = 5 // アウトラインの強さ
   outlinePass.edgeGlow = 1.2 // 輝き
   outlinePass.edgeThickness = 5.0 // 太さ
@@ -1035,7 +1061,10 @@ export const makeOutlineComposer = (stage, mesh) => {
 
   // **FXAA アンチエイリアス処理**
   const fxaaPass = new ShaderPass(FXAAShader)
-  fxaaPass.uniforms["resolution"].value.set(1 / window.innerWidth, 1 / window.innerHeight)
+  fxaaPass.uniforms["resolution"].value.set(
+    1 / window.innerWidth,
+    1 / window.innerHeight,
+  )
   composer.addPass(fxaaPass)
 
   if (stage.composer != null) {
