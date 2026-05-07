@@ -229,7 +229,7 @@ class Particle {
 
     async function init() {
       // （1）loadGLTF
-      await TopUtils.loadGLTFModel(particle, "/src/model/25-01-17_grid2.glb")
+      await TopUtils.loadGLTFModel(particle, "./src/model/25-01-17_grid2.glb")
 
       stage.scene.add(particle.model)
 
