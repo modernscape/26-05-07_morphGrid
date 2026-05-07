@@ -71,7 +71,7 @@ html {
   height: 100%;
 }
 body {
-  background-image: url(./img/white4.jpg);
+  /* background-image: url(./img/white4.jpg); */
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -104,7 +104,7 @@ p.tap {
   transform: translateX(-50%);
   z-index: 100;
   opacity: 0.9;
-  background-image: url(./img/tap.png);
+  /* background-image: url(./img/tap.png); */
   background-size: contain;
   user-select: none;
   opacity: 1;
